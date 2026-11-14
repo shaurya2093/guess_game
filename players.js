@@ -1,0 +1,176 @@
+// Player data: [name, country, role, batting hand, birth year, international debut year]
+// Roles: BAT = batter, WK = wicketkeeper, AR = all-rounder, PACE = pace bowler, SPIN = spin bowler
+// To add a player, append a row. Keep names unique.
+(function (root) {
+  var ROWS = [
+    // India
+    ["Sachin Tendulkar", "IND", "BAT", "R", 1973, 1989],
+    ["Virat Kohli", "IND", "BAT", "R", 1988, 2008],
+    ["Rohit Sharma", "IND", "BAT", "R", 1987, 2007],
+    ["MS Dhoni", "IND", "WK", "R", 1981, 2004],
+    ["Rahul Dravid", "IND", "BAT", "R", 1973, 1996],
+    ["Sourav Ganguly", "IND", "BAT", "L", 1972, 1992],
+    ["Virender Sehwag", "IND", "BAT", "R", 1978, 1999],
+    ["VVS Laxman", "IND", "BAT", "R", 1974, 1996],
+    ["Anil Kumble", "IND", "SPIN", "R", 1970, 1990],
+    ["Kapil Dev", "IND", "AR", "R", 1959, 1978],
+    ["Sunil Gavaskar", "IND", "BAT", "R", 1949, 1971],
+    ["Yuvraj Singh", "IND", "AR", "L", 1981, 2000],
+    ["Harbhajan Singh", "IND", "SPIN", "R", 1980, 1998],
+    ["Zaheer Khan", "IND", "PACE", "R", 1978, 2000],
+    ["Jasprit Bumrah", "IND", "PACE", "R", 1993, 2016],
+    ["Ravindra Jadeja", "IND", "AR", "L", 1988, 2009],
+    ["Ravichandran Ashwin", "IND", "SPIN", "R", 1986, 2010],
+    ["Hardik Pandya", "IND", "AR", "R", 1993, 2016],
+    ["KL Rahul", "IND", "BAT", "R", 1992, 2014],
+    ["Rishabh Pant", "IND", "WK", "L", 1997, 2017],
+    ["Shubman Gill", "IND", "BAT", "R", 1999, 2019],
+    ["Shikhar Dhawan", "IND", "BAT", "L", 1985, 2010],
+    ["Gautam Gambhir", "IND", "BAT", "L", 1981, 2003],
+    ["Mohammed Shami", "IND", "PACE", "R", 1990, 2013],
+    ["Suryakumar Yadav", "IND", "BAT", "R", 1990, 2021],
+    ["Yashasvi Jaiswal", "IND", "BAT", "L", 2001, 2023],
+    ["Mohammed Siraj", "IND", "PACE", "R", 1994, 2017],
+    ["Kuldeep Yadav", "IND", "SPIN", "L", 1994, 2017],
+    ["Yuzvendra Chahal", "IND", "SPIN", "R", 1990, 2016],
+    ["Suresh Raina", "IND", "BAT", "L", 1986, 2005],
+    ["Ajinkya Rahane", "IND", "BAT", "R", 1988, 2011],
+    ["Cheteshwar Pujara", "IND", "BAT", "R", 1988, 2010],
+    ["Ishant Sharma", "IND", "PACE", "R", 1988, 2007],
+    // Australia
+    ["Ricky Ponting", "AUS", "BAT", "R", 1974, 1995],
+    ["Steve Smith", "AUS", "BAT", "R", 1989, 2010],
+    ["David Warner", "AUS", "BAT", "L", 1986, 2009],
+    ["Shane Warne", "AUS", "SPIN", "R", 1969, 1992],
+    ["Glenn McGrath", "AUS", "PACE", "R", 1970, 1993],
+    ["Adam Gilchrist", "AUS", "WK", "L", 1971, 1996],
+    ["Pat Cummins", "AUS", "PACE", "R", 1993, 2011],
+    ["Mitchell Starc", "AUS", "PACE", "L", 1990, 2010],
+    ["Brett Lee", "AUS", "PACE", "R", 1976, 1999],
+    ["Matthew Hayden", "AUS", "BAT", "L", 1971, 1993],
+    ["Michael Clarke", "AUS", "BAT", "R", 1981, 2003],
+    ["Steve Waugh", "AUS", "BAT", "R", 1965, 1985],
+    ["Glenn Maxwell", "AUS", "AR", "R", 1988, 2012],
+    ["Travis Head", "AUS", "BAT", "L", 1993, 2016],
+    ["Marnus Labuschagne", "AUS", "BAT", "R", 1994, 2018],
+    ["Nathan Lyon", "AUS", "SPIN", "R", 1987, 2011],
+    ["Shane Watson", "AUS", "AR", "R", 1981, 2002],
+    ["Michael Hussey", "AUS", "BAT", "L", 1975, 2004],
+    ["Josh Hazlewood", "AUS", "PACE", "L", 1991, 2010],
+    ["Allan Border", "AUS", "BAT", "L", 1955, 1978],
+    ["Don Bradman", "AUS", "BAT", "R", 1908, 1928],
+    ["Mitchell Johnson", "AUS", "PACE", "L", 1981, 2005],
+    ["Usman Khawaja", "AUS", "BAT", "L", 1986, 2011],
+    // England
+    ["Joe Root", "ENG", "BAT", "R", 1990, 2012],
+    ["Ben Stokes", "ENG", "AR", "L", 1991, 2011],
+    ["James Anderson", "ENG", "PACE", "L", 1982, 2002],
+    ["Stuart Broad", "ENG", "PACE", "L", 1986, 2006],
+    ["Alastair Cook", "ENG", "BAT", "L", 1984, 2006],
+    ["Kevin Pietersen", "ENG", "BAT", "R", 1980, 2004],
+    ["Andrew Flintoff", "ENG", "AR", "R", 1977, 1998],
+    ["Jos Buttler", "ENG", "WK", "R", 1990, 2011],
+    ["Jonny Bairstow", "ENG", "WK", "R", 1989, 2011],
+    ["Jofra Archer", "ENG", "PACE", "R", 1995, 2019],
+    ["Ian Botham", "ENG", "AR", "R", 1955, 1976],
+    ["Harry Brook", "ENG", "BAT", "R", 1999, 2022],
+    ["Moeen Ali", "ENG", "AR", "L", 1987, 2014],
+    ["Graeme Swann", "ENG", "SPIN", "R", 1979, 2000],
+    // Pakistan
+    ["Babar Azam", "PAK", "BAT", "R", 1994, 2015],
+    ["Wasim Akram", "PAK", "PACE", "L", 1966, 1984],
+    ["Waqar Younis", "PAK", "PACE", "R", 1971, 1989],
+    ["Imran Khan", "PAK", "AR", "R", 1952, 1971],
+    ["Shoaib Akhtar", "PAK", "PACE", "R", 1975, 1997],
+    ["Inzamam-ul-Haq", "PAK", "BAT", "R", 1970, 1991],
+    ["Younis Khan", "PAK", "BAT", "R", 1977, 2000],
+    ["Shaheen Afridi", "PAK", "PACE", "L", 2000, 2018],
+    ["Mohammad Rizwan", "PAK", "WK", "R", 1992, 2015],
+    ["Javed Miandad", "PAK", "BAT", "R", 1957, 1975],
+    ["Saeed Anwar", "PAK", "BAT", "L", 1968, 1989],
+    ["Shoaib Malik", "PAK", "AR", "R", 1982, 1999],
+    ["Misbah-ul-Haq", "PAK", "BAT", "R", 1974, 2001],
+    // South Africa
+    ["AB de Villiers", "SA", "BAT", "R", 1984, 2004],
+    ["Jacques Kallis", "SA", "AR", "R", 1975, 1995],
+    ["Dale Steyn", "SA", "PACE", "R", 1983, 2004],
+    ["Hashim Amla", "SA", "BAT", "R", 1983, 2004],
+    ["Graeme Smith", "SA", "BAT", "L", 1981, 2002],
+    ["Kagiso Rabada", "SA", "PACE", "L", 1995, 2014],
+    ["Quinton de Kock", "SA", "WK", "L", 1992, 2012],
+    ["Faf du Plessis", "SA", "BAT", "R", 1984, 2011],
+    ["Shaun Pollock", "SA", "AR", "R", 1973, 1995],
+    ["Allan Donald", "SA", "PACE", "R", 1966, 1991],
+    ["Mark Boucher", "SA", "WK", "R", 1976, 1997],
+    ["David Miller", "SA", "BAT", "L", 1989, 2010],
+    ["Makhaya Ntini", "SA", "PACE", "R", 1977, 1998],
+    // New Zealand
+    ["Kane Williamson", "NZ", "BAT", "R", 1990, 2010],
+    ["Brendon McCullum", "NZ", "WK", "R", 1981, 2002],
+    ["Ross Taylor", "NZ", "BAT", "R", 1984, 2006],
+    ["Trent Boult", "NZ", "PACE", "R", 1989, 2011],
+    ["Tim Southee", "NZ", "PACE", "R", 1988, 2008],
+    ["Daniel Vettori", "NZ", "SPIN", "L", 1979, 1997],
+    ["Martin Guptill", "NZ", "BAT", "R", 1986, 2009],
+    ["Richard Hadlee", "NZ", "AR", "L", 1951, 1973],
+    ["Stephen Fleming", "NZ", "BAT", "L", 1973, 1994],
+    ["Rachin Ravindra", "NZ", "AR", "L", 1999, 2021],
+    ["Devon Conway", "NZ", "BAT", "L", 1991, 2020],
+    // Sri Lanka
+    ["Kumar Sangakkara", "SL", "WK", "L", 1977, 2000],
+    ["Mahela Jayawardene", "SL", "BAT", "R", 1977, 1997],
+    ["Muttiah Muralitharan", "SL", "SPIN", "R", 1972, 1992],
+    ["Sanath Jayasuriya", "SL", "AR", "L", 1969, 1989],
+    ["Lasith Malinga", "SL", "PACE", "R", 1983, 2004],
+    ["Tillakaratne Dilshan", "SL", "BAT", "R", 1976, 1999],
+    ["Angelo Mathews", "SL", "AR", "R", 1987, 2008],
+    ["Chaminda Vaas", "SL", "PACE", "L", 1974, 1994],
+    ["Aravinda de Silva", "SL", "BAT", "R", 1965, 1984],
+    ["Wanindu Hasaranga", "SL", "AR", "R", 1997, 2017],
+    ["Rangana Herath", "SL", "SPIN", "L", 1978, 1999],
+    // West Indies
+    ["Brian Lara", "WI", "BAT", "L", 1969, 1990],
+    ["Chris Gayle", "WI", "BAT", "L", 1979, 1999],
+    ["Viv Richards", "WI", "BAT", "R", 1952, 1974],
+    ["Kieron Pollard", "WI", "AR", "R", 1987, 2007],
+    ["Andre Russell", "WI", "AR", "R", 1988, 2010],
+    ["Dwayne Bravo", "WI", "AR", "R", 1983, 2004],
+    ["Sunil Narine", "WI", "SPIN", "L", 1988, 2011],
+    ["Shivnarine Chanderpaul", "WI", "BAT", "L", 1974, 1994],
+    ["Curtly Ambrose", "WI", "PACE", "L", 1963, 1988],
+    ["Courtney Walsh", "WI", "PACE", "R", 1962, 1984],
+    ["Nicholas Pooran", "WI", "WK", "L", 1995, 2016],
+    ["Jason Holder", "WI", "AR", "R", 1991, 2013],
+    ["Clive Lloyd", "WI", "BAT", "L", 1944, 1966],
+    ["Malcolm Marshall", "WI", "PACE", "R", 1958, 1978],
+    // Bangladesh
+    ["Shakib Al Hasan", "BAN", "AR", "L", 1987, 2006],
+    ["Mushfiqur Rahim", "BAN", "WK", "R", 1987, 2005],
+    ["Tamim Iqbal", "BAN", "BAT", "L", 1989, 2007],
+    ["Mustafizur Rahman", "BAN", "PACE", "L", 1995, 2015],
+    ["Mashrafe Mortaza", "BAN", "PACE", "R", 1983, 2001],
+    // Afghanistan
+    ["Rashid Khan", "AFG", "SPIN", "R", 1998, 2015],
+    ["Mohammad Nabi", "AFG", "AR", "R", 1985, 2009],
+    // Zimbabwe
+    ["Andy Flower", "ZIM", "WK", "L", 1968, 1992],
+    ["Sikandar Raza", "ZIM", "AR", "R", 1986, 2013]
+  ];
+
+  var COUNTRIES = {
+    IND: "India", AUS: "Australia", ENG: "England", PAK: "Pakistan",
+    SA: "South Africa", NZ: "New Zealand", SL: "Sri Lanka", WI: "West Indies",
+    BAN: "Bangladesh", AFG: "Afghanistan", ZIM: "Zimbabwe"
+  };
+  var ROLES = {
+    BAT: "Batter", WK: "Keeper", AR: "All-rounder", PACE: "Pace bowler", SPIN: "Spin bowler"
+  };
+
+  var PLAYERS = ROWS.map(function (r) {
+    return { name: r[0], country: r[1], role: r[2], bat: r[3], born: r[4], debut: r[5] };
+  });
+
+  var api = { PLAYERS: PLAYERS, COUNTRIES: COUNTRIES, ROLES: ROLES };
+  if (typeof module !== "undefined" && module.exports) module.exports = api;
+  else root.GameData = api;
+})(typeof window !== "undefined" ? window : this);

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Third Umpire: the daily cricketer guessing game</title>
+  <meta name="description" content="Guess the mystery cricketer in 8 tries. A new puzzle every day.">
+  <meta property="og:title" content="Third Umpire: guess the cricketer">
+  <meta property="og:description" content="One mystery cricketer a day. Eight guesses. Can you keep your streak?">
+  <meta name="theme-color" content="#0f5132">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%23b3261e'/%3E%3Cpath d='M12 24c12 8 28 8 40 0M12 40c12-8 28-8 40 0' stroke='%23fff' stroke-width='3' fill='none' stroke-dasharray='4 3'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="top">
+    <button class="icon-btn" id="helpBtn" aria-label="How to play">?</button>
+    <div class="brand">
+      <h1>Third Umpire</h1>
+      <p id="subtitle">Guess the cricketer</p>
+    </div>
+    <button class="icon-btn" id="statsBtn" aria-label="Your stats">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 20V10h4v10H4zm6 0V4h4v16h-4zm6 0v-7h4v7h-4z" fill="currentColor"/></svg>
+    </button>
+  </header>
+
+  <main>
+    <div class="practice-bar" id="practiceBar" hidden>
+      <span>Practice round. It doesn't affect your streak.</span>
+      <button class="link-btn" id="backToDaily">Back to today's puzzle</button>
+    </div>
+
+    <form class="guess-form" id="guessForm" autocomplete="off">
+      <div class="input-wrap">
+        <input id="guessInput" type="text" placeholder="Type a cricketer's name" aria-label="Guess a cricketer"
+               role="combobox" aria-expanded="false" aria-controls="suggestions" aria-autocomplete="list"
+               autocapitalize="words" spellcheck="false">
+        <ul class="suggestions" id="suggestions" role="listbox" hidden></ul>
+      </div>
+      <div class="counter" id="counter" aria-live="polite"></div>
+    </form>
+
+    <section class="result" id="result" hidden>
+      <p class="result-title" id="resultTitle"></p>
+      <p class="result-answer" id="resultAnswer"></p>
+      <div class="result-actions">
+        <button class="btn primary" id="shareBtn">Share score</button>
+        <button class="btn" id="practiceBtn">Play a practice round</button>
+      </div>
+      <p class="next" id="nextWrap">Next puzzle in <span id="countdown">--:--:--</span></p>
+    </section>
+
+    <div class="grid-head" id="gridHead" hidden>
+      <span>Country</span><span>Role</span><span>Bats</span><span>Born</span><span>Debut</span>
+    </div>
+    <ol class="rows" id="rows" aria-label="Your guesses"></ol>
+
+    <p class="empty" id="emptyHint">Start with any player. Each guess shows how close you are.</p>
+  </main>
+
+  <footer class="foot">
+    <span>A new cricketer every day at midnight.</span>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <dialog class="modal" id="helpModal" aria-labelledby="helpTitle">
+    <h2 id="helpTitle">How to play</h2>
+    <p>Guess the mystery cricketer in 8 tries. After each guess, five clues show how your pick compares.</p>
+    <ul class="legend">
+      <li><span class="chip hit">IND</span> Exact match.</li>
+      <li><span class="chip near">1988 &#9650;</span> Within 3 years. The arrow says the answer is later (&#9650;) or earlier (&#9660;).</li>
+      <li><span class="chip miss">Batter</span> No match.</li>
+    </ul>
+    <p class="small">Born is the birth year. Debut is the year of the player's first international match. Everyone gets the same cricketer each day.</p>
+    <button class="btn primary" data-close>Play</button>
+  </dialog>
+
+  <dialog class="modal" id="statsModal" aria-labelledby="statsTitle">
+    <h2 id="statsTitle">Your stats</h2>
+    <div class="stat-row">
+      <div><strong id="stPlayed">0</strong><span>Played</span></div>
+      <div><strong id="stWin">0</strong><span>Win %</span></div>
+      <div><strong id="stStreak">0</strong><span>Streak</span></div>
+      <div><strong id="stBest">0</strong><span>Best</span></div>
+    </div>
+    <h3>Guesses needed</h3>
+    <div class="dist" id="dist"></div>
+    <button class="btn primary" data-close>Close</button>
+  </dialog>
+
+  <script src="players.js"></script>
+  <script src="core.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
